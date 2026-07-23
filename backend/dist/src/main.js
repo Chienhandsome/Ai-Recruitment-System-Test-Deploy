@@ -11,7 +11,15 @@ async function bootstrap() {
         whitelist: true,
         transform: true,
     }));
-    app.enableCors();
+    const corsOrigins = (process.env.CORS_ORIGIN ??
+        'https://ai-recruitment-system-test-deploy.vercel.app,http://localhost:3000')
+        .split(',')
+        .map((origin) => origin.trim())
+        .filter(Boolean);
+    app.enableCors({
+        origin: corsOrigins,
+        credentials: true,
+    });
     const config = new swagger_1.DocumentBuilder()
         .setTitle('AI Recruitment API')
         .setDescription('API documentation for the AI Recruitment System')

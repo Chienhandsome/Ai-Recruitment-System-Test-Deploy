@@ -86,7 +86,11 @@ Follow these steps to obtain real Supabase parameters:
 4. In **Project Settings > Database > Connection String**, copy:
    * **Transaction Pooler URL** (`DATABASE_URL` with `pgbouncer=true` on port `6543`).
    * **Direct Connection URL** (`DIRECT_URL` on port `5432`).
-5. Copy `.env.example` to `.env` in root and `backend/` and update with your credentials.
+5. Create each service environment file from its own template:
+   * Root `.env.example` → `.env` for local Docker infrastructure.
+   * `frontend/.env.example` → `frontend/.env.local`.
+   * `backend/.env.example` → `backend/.env`.
+   * `ai-service/.env.example` → `ai-service/.env`.
 6. The backend will automatically create the private bucket `resumes` on startup via `SupabaseStorageService.ensureResumeBucket()`.
 
 ---
@@ -120,6 +124,14 @@ RabbitMQ Broker (Local Docker Container)
 
 ## Important Local & Service URLs
 
+### Production
+
+* **Frontend**: [https://ai-recruitment-system-test-deploy.vercel.app](https://ai-recruitment-system-test-deploy.vercel.app)
+* **NestJS Backend API**: [https://ai-recruitment-system-test-deploy.onrender.com/api](https://ai-recruitment-system-test-deploy.onrender.com/api)
+* **System Health Check**: [https://ai-recruitment-system-test-deploy.onrender.com/api/health](https://ai-recruitment-system-test-deploy.onrender.com/api/health)
+
+### Local
+
 * **Frontend**: [http://localhost:3000](http://localhost:3000)
 * **NestJS Backend API**: [http://localhost:3001/api](http://localhost:3001/api)
 * **System Health Check**: [http://localhost:3001/api/health](http://localhost:3001/api/health)
@@ -142,6 +154,9 @@ RabbitMQ Broker (Local Docker Container)
 ---
 
 ## Setup & Running Instructions
+
+Each component owns its environment variables. Do not move backend secrets into the
+root or frontend environment files.
 
 ### 1. Prerequisites
 * **Node.js** (v18+ recommended) & `npm`

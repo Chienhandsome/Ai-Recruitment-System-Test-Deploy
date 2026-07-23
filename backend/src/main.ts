@@ -17,8 +17,19 @@ async function bootstrap() {
     }),
   );
 
-  // 3. Enable CORS
-  app.enableCors();
+  // 3. Enable CORS for the configured frontend origins
+  const corsOrigins = (
+    process.env.CORS_ORIGIN ??
+    'https://ai-recruitment-system-test-deploy.vercel.app,http://localhost:3000'
+  )
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  app.enableCors({
+    origin: corsOrigins,
+    credentials: true,
+  });
 
   // 4. Setup Swagger at /api/docs
   const config = new DocumentBuilder()
