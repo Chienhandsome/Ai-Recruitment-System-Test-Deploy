@@ -23,10 +23,17 @@ async function bootstrap() {
     const corsOrigins = [
         ...new Set([...defaultCorsOrigins, ...configuredCorsOrigins]),
     ];
-    app.enableCors({
-        origin: corsOrigins,
+    const vercelPreviewOriginPattern = /^https:\/\/ai-recruitment-system-test-deploy-[a-z0-9-]+\.vercel\.app$/;
+    const corsOptions = {
+        origin: (origin, callback) => {
+            const isAllowed = !origin ||
+                corsOrigins.includes(origin) ||
+                vercelPreviewOriginPattern.test(origin);
+            callback(null, isAllowed);
+        },
         credentials: true,
-    });
+    };
+    app.enableCors(corsOptions);
     const config = new swagger_1.DocumentBuilder()
         .setTitle('AI Recruitment API')
         .setDescription('API documentation for the AI Recruitment System')
