@@ -18,13 +18,18 @@ async function bootstrap() {
   );
 
   // 3. Enable CORS for the configured frontend origins
-  const corsOrigins = (
-    process.env.CORS_ORIGIN ??
-    'https://ai-recruitment-system-test-deploy.vercel.app,http://localhost:3000'
-  )
+  const defaultCorsOrigins = [
+    'https://ai-recruitment-system-test-deploy.vercel.app',
+    'https://ai-recruitment-system-test-deploy-1.vercel.app',
+    'http://localhost:3000',
+  ];
+  const configuredCorsOrigins = (process.env.CORS_ORIGIN ?? '')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean);
+  const corsOrigins = [
+    ...new Set([...defaultCorsOrigins, ...configuredCorsOrigins]),
+  ];
 
   app.enableCors({
     origin: corsOrigins,
