@@ -156,10 +156,10 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="secondary" className="font-semibold" asChild>
-                <Link href="/register">Tạo tài khoản miễn phí</Link>
+                <Link href="/register/candidate">Tìm công việc phù hợp</Link>
               </Button>
               <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 font-semibold" asChild>
-                <Link href="/login">Đăng nhập</Link>
+                <Link href="/register/recruiter">Đăng tin tuyển dụng</Link>
               </Button>
             </div>
           </div>

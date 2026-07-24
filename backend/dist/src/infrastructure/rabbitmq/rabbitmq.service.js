@@ -57,7 +57,7 @@ let RabbitMQService = RabbitMQService_1 = class RabbitMQService {
     constructor(configService) {
         this.configService = configService;
     }
-    async onModuleInit() {
+    onModuleInit() {
         this.connect();
     }
     async onModuleDestroy() {
@@ -81,12 +81,14 @@ let RabbitMQService = RabbitMQService_1 = class RabbitMQService {
             this.channelWrapper = this.connection.createChannel({
                 json: true,
                 setup: async (channel) => {
-                    await channel.assertExchange(rabbitmq_constants_1.RABBITMQ_EXCHANGE, 'topic', { durable: true });
+                    await channel.assertExchange(rabbitmq_constants_1.RABBITMQ_EXCHANGE, 'topic', {
+                        durable: true,
+                    });
                 },
             });
         }
         catch (error) {
-            this.logger.error(`Error initializing RabbitMQ connection: ${error?.message}`);
+            this.logger.error(`Error initializing RabbitMQ connection: ${this.getErrorMessage(error)}`);
             this.isConnected = false;
         }
     }
@@ -111,11 +113,11 @@ let RabbitMQService = RabbitMQService_1 = class RabbitMQService {
             return true;
         }
         catch (error) {
-            this.logger.error(`Failed to publish message: ${error?.message}`);
+            this.logger.error(`Failed to publish message: ${this.getErrorMessage(error)}`);
             return false;
         }
     }
-    async checkHealth() {
+    checkHealth() {
         if (this.isConnected && this.connection?.isConnected()) {
             return {
                 service: 'rabbitmq',
@@ -127,6 +129,9 @@ let RabbitMQService = RabbitMQService_1 = class RabbitMQService {
             status: 'DOWN',
             message: 'RabbitMQ connection is inactive or broker unreachable at localhost:5672',
         };
+    }
+    getErrorMessage(error) {
+        return error instanceof Error ? error.message : 'Unknown RabbitMQ error';
     }
 };
 exports.RabbitMQService = RabbitMQService;

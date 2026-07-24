@@ -6,7 +6,7 @@ export declare class SupabaseStorageController {
     private readonly logger;
     constructor(storageService: SupabaseStorageService, configService: ConfigService);
     private checkDevEnvironment;
-    testUpload(file?: any): Promise<import("./supabase-storage.service").UploadResult>;
+    testUpload(file?: Express.Multer.File): Promise<import("./supabase-storage.service").UploadResult>;
     testSignedUrl(objectPath: string, expiresIn?: string): Promise<import("./supabase-storage.service").SignedUrlResult>;
     testDeleteFile(objectPath: string): Promise<import("./supabase-storage.service").RemoveResult>;
 }

@@ -26,6 +26,7 @@ const applications_module_1 = require("./modules/applications/applications.modul
 const screenings_module_1 = require("./modules/screenings/screenings.module");
 const interviews_module_1 = require("./modules/interviews/interviews.module");
 const notifications_module_1 = require("./modules/notifications/notifications.module");
+const auth_module_1 = require("./modules/auth/auth.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -50,6 +51,7 @@ exports.AppModule = AppModule = __decorate([
             screenings_module_1.ScreeningsModule,
             interviews_module_1.InterviewsModule,
             notifications_module_1.NotificationsModule,
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

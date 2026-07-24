@@ -1,21 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+import * as React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { GoogleAuthButton } from "@/components/auth/google-auth-button";
+import { loginSchema } from "@/schemas/auth.schema";
+import { createClient } from "@/lib/supabase/client";
+import {
+  AuthApiError,
+  bootstrapProfile,
+  dashboardPathForRoles,
+} from "@/lib/auth-api";
+import type { LoginFormValues } from "@/types/auth";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { loginSchema } from "@/schemas/auth.schema"
-import type { LoginFormValues } from "@/types/auth"
+interface LoginFormProps {
+  initialError?: string;
+}
 
-export function LoginForm() {
-  const [showPassword, setShowPassword] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
+export function LoginForm({ initialError = "" }: LoginFormProps) {
+  const router = useRouter();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [formError, setFormError] = React.useState(initialError);
 
   const {
     register,
@@ -26,95 +38,148 @@ export function LoginForm() {
     defaultValues: {
       email: "",
       password: "",
-      rememberMe: false,
     },
-  })
+  });
 
   const onSubmit = async (values: LoginFormValues) => {
-    setIsLoading(true)
-    // Mock API call
-    console.log("Login values:", values)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setIsLoading(false)
-    alert("Đăng nhập thành công (Mock)")
-  }
+    setIsLoading(true);
+    setFormError("");
+
+    try {
+      const supabase = createClient();
+      const email = values.email.trim().toLowerCase();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password: values.password,
+      });
+
+      if (error) {
+        if (error.message.toLowerCase().includes("email not confirmed")) {
+          router.push(`/verify-email?email=${encodeURIComponent(email)}`);
+          return;
+        }
+        throw error;
+      }
+
+      if (!data.session) {
+        throw new Error("Supabase không trả về phiên đăng nhập.");
+      }
+
+      const profile = await bootstrapProfile(data.session.access_token);
+      router.replace(dashboardPathForRoles(profile.roles));
+      router.refresh();
+    } catch (error) {
+      if (error instanceof AuthApiError && error.code === "ROLE_REQUIRED") {
+        router.push("/register?complete=1");
+        return;
+      }
+
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : "Đăng nhập không thành công. Vui lòng thử lại.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="name@example.com"
-          {...register("email")}
-          className={errors.email ? "border-destructive focus-visible:ring-destructive/20" : ""}
-          disabled={isLoading}
-        />
-        {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
-        )}
+    <div className="space-y-6">
+      <GoogleAuthButton
+        disabled={isLoading}
+        onError={setFormError}
+      />
+
+      <div className="flex items-center gap-4">
+        <div className="h-px flex-1 bg-border" />
+        <span className="text-xs uppercase text-muted-foreground">
+          Hoặc dùng email
+        </span>
+        <div className="h-px flex-1 bg-border" />
       </div>
 
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="password">Mật khẩu</Label>
-          <Link
-            href="#"
-            className="text-sm font-medium text-primary hover:underline"
-          >
-            Quên mật khẩu?
-          </Link>
-        </div>
-        <div className="relative">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
           <Input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="••••••••"
-            {...register("password")}
-            className={errors.password ? "border-destructive focus-visible:ring-destructive/20 pr-10" : "pr-10"}
+            id="email"
+            type="email"
+            autoComplete="email"
+            placeholder="name@example.com"
+            {...register("email")}
+            className={errors.email ? "border-destructive" : ""}
             disabled={isLoading}
           />
-          <button
-            type="button"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            onClick={() => setShowPassword(!showPassword)}
-            tabIndex={-1}
-          >
-            {showPassword ? (
-              <EyeOff className="h-4 w-4" />
-            ) : (
-              <Eye className="h-4 w-4" />
-            )}
-            <span className="sr-only">Toggle password visibility</span>
-          </button>
+          {errors.email && (
+            <p className="text-sm text-destructive">{errors.email.message}</p>
+          )}
         </div>
-        {errors.password && (
-          <p className="text-sm text-destructive">{errors.password.message}</p>
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Mật khẩu</Label>
+            <Link
+              href="/forgot-password"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              Quên mật khẩu?
+            </Link>
+          </div>
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              placeholder="••••••••"
+              {...register("password")}
+              className={errors.password ? "border-destructive pr-10" : "pr-10"}
+              disabled={isLoading}
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              onClick={() => setShowPassword((current) => !current)}
+              aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
+          {errors.password && (
+            <p className="text-sm text-destructive">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+        {formError && (
+          <p
+            role="alert"
+            className="rounded-md bg-red-50 p-3 text-sm text-destructive"
+          >
+            {formError}
+          </p>
         )}
-      </div>
 
-      <div className="flex items-center space-x-2">
-        <Checkbox id="rememberMe" {...register("rememberMe")} disabled={isLoading} />
-        <Label
-          htmlFor="rememberMe"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Ghi nhớ đăng nhập
-        </Label>
-      </div>
-
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        Đăng nhập
-      </Button>
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+          Đăng nhập
+        </Button>
+      </form>
 
       <div className="text-center text-sm">
         Chưa có tài khoản?{" "}
-        <Link href="/register" className="font-semibold text-primary hover:underline">
+        <Link
+          href="/register"
+          className="font-semibold text-primary hover:underline"
+        >
           Đăng ký ngay
         </Link>
       </div>
-    </form>
-  )
+    </div>
+  );
 }

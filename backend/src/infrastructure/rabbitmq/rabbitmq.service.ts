@@ -1,7 +1,13 @@
-import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnModuleInit,
+  OnModuleDestroy,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as amqp from 'amqp-connection-manager';
 import { AmqpConnectionManager, ChannelWrapper } from 'amqp-connection-manager';
+import type { Channel } from 'amqplib';
 import { RABBITMQ_EXCHANGE } from './rabbitmq.constants';
 
 @Injectable()
@@ -13,7 +19,7 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
 
   constructor(private readonly configService: ConfigService) {}
 
-  async onModuleInit() {
+  onModuleInit() {
     this.connect();
   }
 
@@ -22,7 +28,10 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
   }
 
   private connect() {
-    const rabbitMqUrl = this.configService.get<string>('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672');
+    const rabbitMqUrl = this.configService.get<string>(
+      'RABBITMQ_URL',
+      'amqp://guest:guest@localhost:5672',
+    );
 
     try {
       this.connection = amqp.connect([rabbitMqUrl], {
@@ -37,17 +46,23 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
 
       this.connection.on('disconnect', (params: { err?: Error }) => {
         this.isConnected = false;
-        this.logger.warn(`RabbitMQ connection disconnected: ${params?.err?.message || 'Broker unavailable'}`);
+        this.logger.warn(
+          `RabbitMQ connection disconnected: ${params?.err?.message || 'Broker unavailable'}`,
+        );
       });
 
       this.channelWrapper = this.connection.createChannel({
         json: true,
-        setup: async (channel: any) => {
-          await channel.assertExchange(RABBITMQ_EXCHANGE, 'topic', { durable: true });
+        setup: async (channel: Channel) => {
+          await channel.assertExchange(RABBITMQ_EXCHANGE, 'topic', {
+            durable: true,
+          });
         },
       });
-    } catch (error: any) {
-      this.logger.error(`Error initializing RabbitMQ connection: ${error?.message}`);
+    } catch (error: unknown) {
+      this.logger.error(
+        `Error initializing RabbitMQ connection: ${this.getErrorMessage(error)}`,
+      );
       this.isConnected = false;
     }
   }
@@ -65,7 +80,9 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
 
   async publishTestMessage(routingKey: string, payload: any): Promise<boolean> {
     if (!this.isConnected || !this.channelWrapper) {
-      this.logger.warn('Cannot publish message: RabbitMQ connection is not established.');
+      this.logger.warn(
+        'Cannot publish message: RabbitMQ connection is not established.',
+      );
       return false;
     }
 
@@ -73,13 +90,19 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
       await this.channelWrapper.publish(RABBITMQ_EXCHANGE, routingKey, payload);
       this.logger.log(`Published test message to key '${routingKey}'`);
       return true;
-    } catch (error: any) {
-      this.logger.error(`Failed to publish message: ${error?.message}`);
+    } catch (error: unknown) {
+      this.logger.error(
+        `Failed to publish message: ${this.getErrorMessage(error)}`,
+      );
       return false;
     }
   }
 
-  async checkHealth(): Promise<{ service: string; status: string; message?: string }> {
+  checkHealth(): {
+    service: string;
+    status: string;
+    message?: string;
+  } {
     if (this.isConnected && this.connection?.isConnected()) {
       return {
         service: 'rabbitmq',
@@ -90,7 +113,12 @@ export class RabbitMQService implements OnModuleInit, OnModuleDestroy {
     return {
       service: 'rabbitmq',
       status: 'DOWN',
-      message: 'RabbitMQ connection is inactive or broker unreachable at localhost:5672',
+      message:
+        'RabbitMQ connection is inactive or broker unreachable at localhost:5672',
     };
+  }
+
+  private getErrorMessage(error: unknown): string {
+    return error instanceof Error ? error.message : 'Unknown RabbitMQ error';
   }
 }

@@ -1,7 +1,12 @@
-import { Injectable, Logger, BadRequestException, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  BadRequestException,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 export interface UploadResult {
   bucket: string;
@@ -35,9 +40,16 @@ export class SupabaseStorageService implements OnModuleInit {
   ];
 
   constructor(private readonly configService: ConfigService) {
-    this.bucketName = this.configService.get<string>('SUPABASE_STORAGE_BUCKET', 'resumes');
-    this.defaultExpiresIn = Number(this.configService.get<number>('SUPABASE_SIGNED_URL_EXPIRES_IN', 300));
-    this.maxFileSizeMb = Number(this.configService.get<number>('MAX_RESUME_FILE_SIZE_MB', 5));
+    this.bucketName = this.configService.get<string>(
+      'SUPABASE_STORAGE_BUCKET',
+      'resumes',
+    );
+    this.defaultExpiresIn = Number(
+      this.configService.get<number>('SUPABASE_SIGNED_URL_EXPIRES_IN', 300),
+    );
+    this.maxFileSizeMb = Number(
+      this.configService.get<number>('MAX_RESUME_FILE_SIZE_MB', 5),
+    );
 
     this.initClient();
   }
@@ -61,7 +73,9 @@ export class SupabaseStorageService implements OnModuleInit {
       secretKey.includes('sb_secret_xxxxxxxxx') ||
       secretKey.includes('your-service-role-key')
     ) {
-      this.logger.warn('Supabase Storage: SUPABASE_URL or SUPABASE_SECRET_KEY unconfigured or placeholder.');
+      this.logger.warn(
+        'Supabase Storage: SUPABASE_URL or SUPABASE_SECRET_KEY unconfigured or placeholder.',
+      );
       this.supabaseClient = null;
       return;
     }
@@ -74,48 +88,64 @@ export class SupabaseStorageService implements OnModuleInit {
         },
       });
       this.logger.log('Supabase Storage client initialized successfully.');
-    } catch (error: any) {
-      this.logger.error(`Failed to initialize Supabase client: ${error?.message}`);
+    } catch (error: unknown) {
+      this.logger.error(
+        `Failed to initialize Supabase client: ${this.getErrorMessage(error)}`,
+      );
       this.supabaseClient = null;
     }
   }
 
   async ensureResumeBucket(): Promise<boolean> {
     if (!this.supabaseClient) {
-      this.logger.warn('Cannot check/create bucket: Supabase client is not initialized.');
+      this.logger.warn(
+        'Cannot check/create bucket: Supabase client is not initialized.',
+      );
       return false;
     }
 
     try {
-      const { data: buckets, error: getError } = await this.supabaseClient.storage.listBuckets();
+      const { data: buckets, error: getError } =
+        await this.supabaseClient.storage.listBuckets();
       if (getError) {
-        this.logger.error(`Failed to list storage buckets: ${getError.message}`);
+        this.logger.error(
+          `Failed to list storage buckets: ${getError.message}`,
+        );
         return false;
       }
 
       const bucketExists = buckets?.some((b) => b.name === this.bucketName);
 
       if (!bucketExists) {
-        this.logger.log(`Bucket '${this.bucketName}' does not exist. Creating private bucket...`);
-        const { error: createError } = await this.supabaseClient.storage.createBucket(this.bucketName, {
-          public: false,
-          fileSizeLimit: `${this.maxFileSizeMb}MB`,
-          allowedMimeTypes: this.allowedMimeTypes,
-        });
+        this.logger.log(
+          `Bucket '${this.bucketName}' does not exist. Creating private bucket...`,
+        );
+        const { error: createError } =
+          await this.supabaseClient.storage.createBucket(this.bucketName, {
+            public: false,
+            fileSizeLimit: `${this.maxFileSizeMb}MB`,
+            allowedMimeTypes: this.allowedMimeTypes,
+          });
 
         if (createError) {
-          this.logger.error(`Failed to create bucket '${this.bucketName}': ${createError.message}`);
+          this.logger.error(
+            `Failed to create bucket '${this.bucketName}': ${createError.message}`,
+          );
           return false;
         }
 
-        this.logger.log(`Private bucket '${this.bucketName}' created successfully.`);
+        this.logger.log(
+          `Private bucket '${this.bucketName}' created successfully.`,
+        );
       } else {
         this.logger.log(`Private bucket '${this.bucketName}' already exists.`);
       }
 
       return true;
-    } catch (error: any) {
-      this.logger.error(`Error ensuring resume bucket exists: ${error?.message}`);
+    } catch (error: unknown) {
+      this.logger.error(
+        `Error ensuring resume bucket exists: ${this.getErrorMessage(error)}`,
+      );
       return false;
     }
   }
@@ -127,7 +157,9 @@ export class SupabaseStorageService implements OnModuleInit {
     customObjectPath?: string,
   ): Promise<UploadResult> {
     if (!this.supabaseClient) {
-      throw new BadRequestException('Supabase storage client is not configured.');
+      throw new BadRequestException(
+        'Supabase storage client is not configured.',
+      );
     }
 
     if (!buffer || buffer.length === 0) {
@@ -136,24 +168,30 @@ export class SupabaseStorageService implements OnModuleInit {
 
     const maxSizeBytes = this.maxFileSizeMb * 1024 * 1024;
     if (buffer.length > maxSizeBytes) {
-      throw new BadRequestException(`File size exceeds maximum allowed limit of ${this.maxFileSizeMb} MB.`);
+      throw new BadRequestException(
+        `File size exceeds maximum allowed limit of ${this.maxFileSizeMb} MB.`,
+      );
     }
 
     if (!this.allowedMimeTypes.includes(mimeType)) {
-      throw new BadRequestException(`Invalid MIME type '${mimeType}'. Only PDF and DOCX files are permitted.`);
+      throw new BadRequestException(
+        `Invalid MIME type '${mimeType}'. Only PDF and DOCX files are permitted.`,
+      );
     }
 
     const safeFileName = this.sanitizeFileName(originalFileName);
     const fileExt = safeFileName.split('.').pop()?.toLowerCase();
     if (fileExt !== 'pdf' && fileExt !== 'docx') {
-      throw new BadRequestException(`Invalid file extension '.${fileExt}'. Only .pdf and .docx are allowed.`);
+      throw new BadRequestException(
+        `Invalid file extension '.${fileExt}'. Only .pdf and .docx are allowed.`,
+      );
     }
 
     let targetPath: string;
     if (customObjectPath) {
       targetPath = this.sanitizeObjectPath(customObjectPath);
     } else {
-      targetPath = `test/infrastructure/${uuidv4()}-${safeFileName}`;
+      targetPath = `test/infrastructure/${randomUUID()}-${safeFileName}`;
     }
 
     const { data, error } = await this.supabaseClient.storage
@@ -164,7 +202,9 @@ export class SupabaseStorageService implements OnModuleInit {
       });
 
     if (error) {
-      this.logger.error(`Failed to upload file to '${targetPath}': ${error.message}`);
+      this.logger.error(
+        `Failed to upload file to '${targetPath}': ${error.message}`,
+      );
       throw new BadRequestException(`Upload failed: ${error.message}`);
     }
 
@@ -176,9 +216,14 @@ export class SupabaseStorageService implements OnModuleInit {
     };
   }
 
-  async createSignedDownloadUrl(objectPath: string, expiresIn?: number): Promise<SignedUrlResult> {
+  async createSignedDownloadUrl(
+    objectPath: string,
+    expiresIn?: number,
+  ): Promise<SignedUrlResult> {
     if (!this.supabaseClient) {
-      throw new BadRequestException('Supabase storage client is not configured.');
+      throw new BadRequestException(
+        'Supabase storage client is not configured.',
+      );
     }
 
     const sanitizedPath = this.sanitizeObjectPath(objectPath);
@@ -189,8 +234,12 @@ export class SupabaseStorageService implements OnModuleInit {
       .createSignedUrl(sanitizedPath, ttl);
 
     if (error || !data?.signedUrl) {
-      this.logger.error(`Failed to create signed URL for path '${sanitizedPath}': ${error?.message}`);
-      throw new BadRequestException(`Signed URL creation failed: ${error?.message || 'File not found'}`);
+      this.logger.error(
+        `Failed to create signed URL for path '${sanitizedPath}': ${error?.message}`,
+      );
+      throw new BadRequestException(
+        `Signed URL creation failed: ${error?.message || 'File not found'}`,
+      );
     }
 
     return {
@@ -201,17 +250,21 @@ export class SupabaseStorageService implements OnModuleInit {
 
   async removeResume(objectPath: string): Promise<RemoveResult> {
     if (!this.supabaseClient) {
-      throw new BadRequestException('Supabase storage client is not configured.');
+      throw new BadRequestException(
+        'Supabase storage client is not configured.',
+      );
     }
 
     const sanitizedPath = this.sanitizeObjectPath(objectPath);
 
-    const { data, error } = await this.supabaseClient.storage
+    const { error } = await this.supabaseClient.storage
       .from(this.bucketName)
       .remove([sanitizedPath]);
 
     if (error) {
-      this.logger.error(`Failed to remove file '${sanitizedPath}': ${error.message}`);
+      this.logger.error(
+        `Failed to remove file '${sanitizedPath}': ${error.message}`,
+      );
       throw new BadRequestException(`Removal failed: ${error.message}`);
     }
 
@@ -244,7 +297,11 @@ export class SupabaseStorageService implements OnModuleInit {
     }
   }
 
-  async checkHealth(): Promise<{ service: string; status: string; message?: string }> {
+  async checkHealth(): Promise<{
+    service: string;
+    status: string;
+    message?: string;
+  }> {
     if (!this.supabaseClient) {
       return {
         service: 'supabase-storage',
@@ -254,7 +311,9 @@ export class SupabaseStorageService implements OnModuleInit {
     }
 
     try {
-      const { data, error } = await this.supabaseClient.storage.getBucket(this.bucketName);
+      const { error } = await this.supabaseClient.storage.getBucket(
+        this.bucketName,
+      );
       if (error) {
         return {
           service: 'supabase-storage',
@@ -267,24 +326,28 @@ export class SupabaseStorageService implements OnModuleInit {
         service: 'supabase-storage',
         status: 'UP',
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         service: 'supabase-storage',
         status: 'DOWN',
-        message: `Storage check failed: ${error?.message}`,
+        message: `Storage check failed: ${this.getErrorMessage(error)}`,
       };
     }
   }
 
   private sanitizeFileName(fileName: string): string {
-    return fileName
-      .replace(/[^a-zA-Z0-9._-]/g, '_')
-      .replace(/\.\.+/g, '.');
+    return fileName.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/\.\.+/g, '.');
+  }
+
+  private getErrorMessage(error: unknown): string {
+    return error instanceof Error ? error.message : 'Unknown Supabase error';
   }
 
   private sanitizeObjectPath(objectPath: string): string {
     if (objectPath.includes('..')) {
-      throw new BadRequestException('Invalid object path containing parent directory traversal.');
+      throw new BadRequestException(
+        'Invalid object path containing parent directory traversal.',
+      );
     }
     return objectPath.replace(/^\/+/, '');
   }

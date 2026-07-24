@@ -19,6 +19,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
 const config_1 = require("@nestjs/config");
 const supabase_storage_service_1 = require("./supabase-storage.service");
+const public_decorator_1 = require("../../modules/auth/decorators/public.decorator");
 let SupabaseStorageController = SupabaseStorageController_1 = class SupabaseStorageController {
     storageService;
     configService;
@@ -82,7 +83,11 @@ __decorate([
 __decorate([
     (0, common_1.Get)('test-signed-url'),
     (0, swagger_1.ApiOperation)({ summary: 'Generate test signed download URL (Dev Only)' }),
-    (0, swagger_1.ApiQuery)({ name: 'objectPath', required: true, example: 'test/infrastructure/example.pdf' }),
+    (0, swagger_1.ApiQuery)({
+        name: 'objectPath',
+        required: true,
+        example: 'test/infrastructure/example.pdf',
+    }),
     (0, swagger_1.ApiQuery)({ name: 'expiresIn', required: false, example: 300 }),
     __param(0, (0, common_1.Query)('objectPath')),
     __param(1, (0, common_1.Query)('expiresIn')),
@@ -92,8 +97,14 @@ __decorate([
 ], SupabaseStorageController.prototype, "testSignedUrl", null);
 __decorate([
     (0, common_1.Delete)('test-file'),
-    (0, swagger_1.ApiOperation)({ summary: 'Delete test file from Supabase Storage (Dev Only)' }),
-    (0, swagger_1.ApiQuery)({ name: 'objectPath', required: true, example: 'test/infrastructure/example.pdf' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Delete test file from Supabase Storage (Dev Only)',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'objectPath',
+        required: true,
+        example: 'test/infrastructure/example.pdf',
+    }),
     __param(0, (0, common_1.Query)('objectPath')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -101,6 +112,7 @@ __decorate([
 ], SupabaseStorageController.prototype, "testDeleteFile", null);
 exports.SupabaseStorageController = SupabaseStorageController = SupabaseStorageController_1 = __decorate([
     (0, swagger_1.ApiTags)('Infrastructure - Supabase Storage (Dev Only)'),
+    (0, public_decorator_1.Public)(),
     (0, common_1.Controller)('infrastructure/storage'),
     __metadata("design:paramtypes", [supabase_storage_service_1.SupabaseStorageService,
         config_1.ConfigService])

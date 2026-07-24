@@ -17,6 +17,7 @@ const app_service_1 = require("./app.service");
 const prisma_service_1 = require("./database/prisma.service");
 const supabase_storage_service_1 = require("./infrastructure/supabase/supabase-storage.service");
 const rabbitmq_service_1 = require("./infrastructure/rabbitmq/rabbitmq.service");
+const public_decorator_1 = require("./modules/auth/decorators/public.decorator");
 let AppController = class AppController {
     appService;
     prismaService;
@@ -37,7 +38,7 @@ let AppController = class AppController {
         const backendStatus = 'UP';
         const dbHealth = await this.prismaService.checkHealth();
         const storageHealth = await this.supabaseStorageService.checkHealth();
-        const rabbitHealth = await this.rabbitMqService.checkHealth();
+        const rabbitHealth = this.rabbitMqService.checkHealth();
         let aiServiceStatus = 'DOWN';
         const aiServiceUrl = this.configService.get('AI_SERVICE_URL', 'http://localhost:8000');
         try {
@@ -103,6 +104,7 @@ __decorate([
 ], AppController.prototype, "getHealth", null);
 exports.AppController = AppController = __decorate([
     (0, swagger_1.ApiTags)('System'),
+    (0, public_decorator_1.Public)(),
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService,
         prisma_service_1.PrismaService,

@@ -37,5 +37,6 @@ export declare class SupabaseStorageService implements OnModuleInit {
         message?: string;
     }>;
     private sanitizeFileName;
+    private getErrorMessage;
     private sanitizeObjectPath;
 }

@@ -7,14 +7,15 @@ export declare class RabbitMQService implements OnModuleInit, OnModuleDestroy {
     private channelWrapper;
     private isConnected;
     constructor(configService: ConfigService);
-    onModuleInit(): Promise<void>;
+    onModuleInit(): void;
     onModuleDestroy(): Promise<void>;
     private connect;
     private disconnect;
     publishTestMessage(routingKey: string, payload: any): Promise<boolean>;
-    checkHealth(): Promise<{
+    checkHealth(): {
         service: string;
         status: string;
         message?: string;
-    }>;
+    };
+    private getErrorMessage;
 }

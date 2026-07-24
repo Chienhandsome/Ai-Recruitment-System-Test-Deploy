@@ -61,6 +61,8 @@ async function bootstrap() {
   const port = process.env.PORT ?? process.env.BACKEND_PORT ?? 3001;
   await app.listen(port);
   console.log(`Backend is running on: http://localhost:${port}/api`);
-  console.log(`API documentation available at: http://localhost:${port}/api/docs`);
+  console.log(
+    `API documentation available at: http://localhost:${port}/api/docs`,
+  );
 }
-bootstrap();
+void bootstrap();

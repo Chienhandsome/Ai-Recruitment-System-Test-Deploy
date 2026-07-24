@@ -5,8 +5,10 @@ import { AppService } from './app.service';
 import { PrismaService } from './database/prisma.service';
 import { SupabaseStorageService } from './infrastructure/supabase/supabase-storage.service';
 import { RabbitMQService } from './infrastructure/rabbitmq/rabbitmq.service';
+import { Public } from './modules/auth/decorators/public.decorator';
 
 @ApiTags('System')
+@Public()
 @Controller()
 export class AppController {
   constructor(
@@ -56,11 +58,14 @@ export class AppController {
     const storageHealth = await this.supabaseStorageService.checkHealth();
 
     // 4. RabbitMQ status
-    const rabbitHealth = await this.rabbitMqService.checkHealth();
+    const rabbitHealth = this.rabbitMqService.checkHealth();
 
     // 5. AI Service status check (HTTP fetch)
     let aiServiceStatus = 'DOWN';
-    const aiServiceUrl = this.configService.get<string>('AI_SERVICE_URL', 'http://localhost:8000');
+    const aiServiceUrl = this.configService.get<string>(
+      'AI_SERVICE_URL',
+      'http://localhost:8000',
+    );
     try {
       const response = await fetch(`${aiServiceUrl}/health`, {
         signal: AbortSignal.timeout(3000),

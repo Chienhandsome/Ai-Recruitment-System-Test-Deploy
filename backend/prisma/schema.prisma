@@ -17,9 +17,8 @@ datasource db {
 
 enum AccountStatus {
   ACTIVE
-  INACTIVE
-  BLOCKED
-  PENDING
+  SUSPENDED
+  LOCKED
 }
 
 enum DepartmentStatus {
@@ -203,16 +202,15 @@ model Department {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  passwordHash String?       @map("password_hash")
-  fullName     String        @map("full_name")
-  phone        String?
-  avatarUrl    String?       @map("avatar_url")
-  status       AccountStatus @default(ACTIVE)
-  lastLoginAt  DateTime?     @map("last_login_at")
-  createdAt    DateTime      @default(now()) @map("created_at")
-  updatedAt    DateTime      @updatedAt @map("updated_at")
+  id          String        @id @db.Uuid
+  email       String        @unique
+  fullName    String        @map("full_name")
+  phone       String?
+  avatarUrl   String?       @map("avatar_url")
+  status      AccountStatus @default(ACTIVE)
+  lastLoginAt DateTime?     @map("last_login_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
 
   userRoles        UserRole[]
   recruiterProfile RecruiterProfile?
@@ -237,7 +235,7 @@ model Role {
 
 model UserRole {
   id        String   @id @default(uuid())
-  userId    String   @map("user_id")
+  userId    String   @map("user_id") @db.Uuid
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   roleId    String   @map("role_id")
   role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
@@ -249,7 +247,7 @@ model UserRole {
 
 model RecruiterProfile {
   id           String      @id @default(uuid())
-  userId       String      @unique @map("user_id")
+  userId       String      @unique @map("user_id") @db.Uuid
   user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   departmentId String?     @map("department_id")
   department   Department? @relation(fields: [departmentId], references: [id])
@@ -332,7 +330,7 @@ model JobSkill {
 
 model Candidate {
   id          String   @id @default(uuid())
-  userId      String?  @unique @map("user_id")
+  userId      String?  @unique @map("user_id") @db.Uuid
   user        User?    @relation(fields: [userId], references: [id])
   fullName    String   @map("full_name")
   email       String
@@ -512,7 +510,7 @@ model Notification {
   id              String             @id @default(uuid())
   applicationId   String?            @map("application_id")
   application     Application?       @relation(fields: [applicationId], references: [id])
-  recipientUserId String?            @map("recipient_user_id")
+  recipientUserId String?            @map("recipient_user_id") @db.Uuid
   type            NotificationType   @default(APPLICATION_STATUS_CHANGED)
   status          NotificationStatus @default(UNREAD)
   title           String
@@ -541,7 +539,7 @@ model ApplicationStatusHistory {
   application     Application       @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   previousStage   ApplicationStage? @map("previous_stage")
   newStage        ApplicationStage  @map("new_stage")
-  changedByUserId String?           @map("changed_by_user_id")
+  changedByUserId String?           @map("changed_by_user_id") @db.Uuid
   note            String?
   createdAt       DateTime          @default(now()) @map("created_at")
 
@@ -550,7 +548,7 @@ model ApplicationStatusHistory {
 
 model AuditLog {
   id         String   @id @default(uuid())
-  userId     String?  @map("user_id")
+  userId     String?  @map("user_id") @db.Uuid
   action     String
   entityName String   @map("entity_name")
   entityId   String?  @map("entity_id")

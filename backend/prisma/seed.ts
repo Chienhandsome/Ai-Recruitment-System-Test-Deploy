@@ -1,4 +1,4 @@
-import { PrismaClient, DepartmentStatus, SkillStatus, AccountStatus } from '@prisma/client';
+import { PrismaClient, DepartmentStatus, SkillStatus } from '@prisma/client';
 
 const prisma = new PrismaClient();
 

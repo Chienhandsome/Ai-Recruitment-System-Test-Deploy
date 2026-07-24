@@ -1,13 +1,26 @@
-import { AuthLayout } from "@/components/auth/auth-layout"
-import { RegisterForm } from "@/components/auth/register-form"
+import { AccountTypeSelector } from "@/components/auth/account-type-selector";
+import { AuthLayout } from "@/components/auth/auth-layout";
 
-export default function RegisterPage() {
+interface RegisterPageProps {
+  searchParams: Promise<{ complete?: string }>;
+}
+
+export default async function RegisterPage({
+  searchParams,
+}: RegisterPageProps) {
+  const params = await searchParams;
+  const completeExistingAuth = params.complete === "1";
+
   return (
     <AuthLayout
-      title="Tạo tài khoản"
-      subtitle="Đăng ký tài khoản miễn phí để tìm kiếm công việc phù hợp với bạn"
+      title={
+        completeExistingAuth
+          ? "Hoàn tất tài khoản"
+          : "Bạn muốn sử dụng hệ thống như thế nào?"
+      }
+      subtitle="Chọn đúng loại tài khoản để chúng tôi thiết lập trải nghiệm phù hợp."
     >
-      <RegisterForm />
+      <AccountTypeSelector completeExistingAuth={completeExistingAuth} />
     </AuthLayout>
-  )
+  );
 }

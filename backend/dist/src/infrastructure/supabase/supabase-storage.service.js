@@ -14,7 +14,7 @@ exports.SupabaseStorageService = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const supabase_js_1 = require("@supabase/supabase-js");
-const uuid_1 = require("uuid");
+const node_crypto_1 = require("node:crypto");
 let SupabaseStorageService = SupabaseStorageService_1 = class SupabaseStorageService {
     configService;
     logger = new common_1.Logger(SupabaseStorageService_1.name);
@@ -61,7 +61,7 @@ let SupabaseStorageService = SupabaseStorageService_1 = class SupabaseStorageSer
             this.logger.log('Supabase Storage client initialized successfully.');
         }
         catch (error) {
-            this.logger.error(`Failed to initialize Supabase client: ${error?.message}`);
+            this.logger.error(`Failed to initialize Supabase client: ${this.getErrorMessage(error)}`);
             this.supabaseClient = null;
         }
     }
@@ -96,7 +96,7 @@ let SupabaseStorageService = SupabaseStorageService_1 = class SupabaseStorageSer
             return true;
         }
         catch (error) {
-            this.logger.error(`Error ensuring resume bucket exists: ${error?.message}`);
+            this.logger.error(`Error ensuring resume bucket exists: ${this.getErrorMessage(error)}`);
             return false;
         }
     }
@@ -124,7 +124,7 @@ let SupabaseStorageService = SupabaseStorageService_1 = class SupabaseStorageSer
             targetPath = this.sanitizeObjectPath(customObjectPath);
         }
         else {
-            targetPath = `test/infrastructure/${(0, uuid_1.v4)()}-${safeFileName}`;
+            targetPath = `test/infrastructure/${(0, node_crypto_1.randomUUID)()}-${safeFileName}`;
         }
         const { data, error } = await this.supabaseClient.storage
             .from(this.bucketName)
@@ -166,7 +166,7 @@ let SupabaseStorageService = SupabaseStorageService_1 = class SupabaseStorageSer
             throw new common_1.BadRequestException('Supabase storage client is not configured.');
         }
         const sanitizedPath = this.sanitizeObjectPath(objectPath);
-        const { data, error } = await this.supabaseClient.storage
+        const { error } = await this.supabaseClient.storage
             .from(this.bucketName)
             .remove([sanitizedPath]);
         if (error) {
@@ -209,7 +209,7 @@ let SupabaseStorageService = SupabaseStorageService_1 = class SupabaseStorageSer
             };
         }
         try {
-            const { data, error } = await this.supabaseClient.storage.getBucket(this.bucketName);
+            const { error } = await this.supabaseClient.storage.getBucket(this.bucketName);
             if (error) {
                 return {
                     service: 'supabase-storage',
@@ -226,14 +226,15 @@ let SupabaseStorageService = SupabaseStorageService_1 = class SupabaseStorageSer
             return {
                 service: 'supabase-storage',
                 status: 'DOWN',
-                message: `Storage check failed: ${error?.message}`,
+                message: `Storage check failed: ${this.getErrorMessage(error)}`,
             };
         }
     }
     sanitizeFileName(fileName) {
-        return fileName
-            .replace(/[^a-zA-Z0-9._-]/g, '_')
-            .replace(/\.\.+/g, '.');
+        return fileName.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/\.\.+/g, '.');
+    }
+    getErrorMessage(error) {
+        return error instanceof Error ? error.message : 'Unknown Supabase error';
     }
     sanitizeObjectPath(objectPath) {
         if (objectPath.includes('..')) {

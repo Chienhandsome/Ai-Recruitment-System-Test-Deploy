@@ -33,7 +33,9 @@ let PrismaService = PrismaService_1 = class PrismaService extends client_1.Prism
     }
     async connectWithRetry() {
         const dbUrl = process.env.DATABASE_URL;
-        if (!dbUrl || dbUrl.includes('your-password') || dbUrl.includes('your-project-ref')) {
+        if (!dbUrl ||
+            dbUrl.includes('your-password') ||
+            dbUrl.includes('your-project-ref')) {
             this.logger.warn('Prisma: DATABASE_URL contains placeholder credentials. Connection deferred.');
             this.isConnected = false;
             return;
@@ -45,12 +47,14 @@ let PrismaService = PrismaService_1 = class PrismaService extends client_1.Prism
         }
         catch (error) {
             this.isConnected = false;
-            this.logger.error(`Prisma connection error: ${error?.message || 'Database connection failed'}`);
+            this.logger.error(`Prisma connection error: ${error instanceof Error ? error.message : 'Database connection failed'}`);
         }
     }
     async checkHealth() {
         const dbUrl = process.env.DATABASE_URL;
-        if (!dbUrl || dbUrl.includes('your-password') || dbUrl.includes('your-project-ref')) {
+        if (!dbUrl ||
+            dbUrl.includes('your-password') ||
+            dbUrl.includes('your-project-ref')) {
             return {
                 service: 'supabase-postgres',
                 status: 'DOWN',
@@ -65,7 +69,7 @@ let PrismaService = PrismaService_1 = class PrismaService extends client_1.Prism
                 status: 'UP',
             };
         }
-        catch (error) {
+        catch {
             this.isConnected = false;
             return {
                 service: 'supabase-postgres',

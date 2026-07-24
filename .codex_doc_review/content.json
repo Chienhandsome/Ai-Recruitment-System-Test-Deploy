@@ -1,0 +1,642 @@
+{
+  "source": "D:\\Zalo Received Files\\Mo_ta_Quy_trinh_He_thong_Tuyen_dung_AI_Da_sua.docx",
+  "paragraph_count": 83,
+  "table_count": 5,
+  "section_count": 1,
+  "blocks": [
+    {
+      "index": 1,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "BẢN MÔ TẢ ĐẦY ĐỦ QUY TRÌNH NGHIỆP VỤ\nHỆ THỐNG TUYỂN DỤNG TÍCH HỢP AI",
+      "drawings": 0
+    },
+    {
+      "index": 2,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Hệ thống Sàng lọc, So khớp Profile - JD & Chấm điểm Ứng viên Tự động (AI-Powered ATS)",
+      "drawings": 0
+    },
+    {
+      "index": 3,
+      "type": "table",
+      "rows": [
+        [
+          "Tên dự án: Hệ thống Tuyển dụng AI (Multi-Recruiter ATS)",
+          "Phạm vi: End-to-End Candidate & HR Workflow"
+        ],
+        [
+          "Mô hình vận hành: Đăng ký mở - HR đăng tin tự do",
+          "Phiên bản tài liệu: 1.1 (Đã điều chỉnh)"
+        ]
+      ]
+    },
+    {
+      "index": 5,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "I. TỔNG QUAN HỆ THỐNG & TẦM NHÌN",
+      "drawings": 0
+    },
+    {
+      "index": 6,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Hệ thống tuyển dụng thông minh tích hợp AI được thiết kế nhằm tối ưu hóa luồng tuyển dụng giữa Nhà tuyển dụng (HR) và Ứng viên (Candidate). Khác với các hệ thống chỉ lưu trữ CV dưới dạng tệp PDF/Word rời rạc, nền tảng chuẩn hóa hồ sơ ứng viên thành dữ liệu có cấu trúc (Structured Data) và tự động so khớp với bài đăng tuyển dụng (Job Description - JD) thông qua AI Processing Engine.",
+      "drawings": 0
+    },
+    {
+      "index": 7,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Điểm nổi bật của hệ thống bao gồm:",
+      "drawings": 0
+    },
+    {
+      "index": 8,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Đăng ký và đăng tin tự do: HR có thể tự đăng ký tài khoản, khai báo thông tin công ty/tổ chức và đăng bài tuyển dụng mà không cần quy trình xác minh doanh nghiệp.",
+      "drawings": 0
+    },
+    {
+      "index": 9,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Chấm điểm AI linh hoạt: Cho phép HR tùy chỉnh trọng số Kỹ năng, Kinh nghiệm, Học vấn và Dự án phù hợp với từng vị trí công việc.",
+      "drawings": 0
+    },
+    {
+      "index": 10,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Cơ chế Hồ sơ Snapshot: Khi ứng viên bấm Apply, hệ thống tạo bản sao hồ sơ tại thời điểm nộp để chấm điểm độc lập, không bị ảnh hưởng bởi các chỉnh sửa sau đó.",
+      "drawings": 0
+    },
+    {
+      "index": 11,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Trạng thái ứng tuyển tối giản: Ứng viên chỉ theo dõi hai trạng thái chính là Đã nộp hồ sơ và Được xác nhận phỏng vấn.",
+      "drawings": 0
+    },
+    {
+      "index": 12,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "II. QUY TRÌNH DÀNH CHO NHÀ TUYỂN DỤNG (HR JOURNEY)",
+      "drawings": 0
+    },
+    {
+      "index": 13,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "1. Đăng ký & Khởi tạo Tài khoản Nhà tuyển dụng",
+      "drawings": 0
+    },
+    {
+      "index": 14,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Quy trình đăng ký tài khoản dành cho Nhà tuyển dụng được thiết kế tối giản để HR có thể nhanh chóng tham gia và đăng bài tuyển dụng:",
+      "drawings": 0
+    },
+    {
+      "index": 15,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Khởi đầu: HR chọn vai trò 'Nhà tuyển dụng / HR' tại trang chủ và nhấn nút Đăng ký.",
+      "drawings": 0
+    },
+    {
+      "index": 16,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Khai báo thông tin: Nhập Họ và tên, Email, Số điện thoại, Mật khẩu và thông tin công ty/tổ chức như Tên công ty, Logo, Địa chỉ, Website và Mô tả. Tên công ty được khai báo tự do, không yêu cầu tải giấy phép kinh doanh hoặc xác minh pháp lý.",
+      "drawings": 0
+    },
+    {
+      "index": 17,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Kích hoạt tài khoản: Xác thực Email để hoàn tất đăng ký tài khoản. Đây chỉ là xác thực tài khoản người dùng, không phải xác minh doanh nghiệp.",
+      "drawings": 0
+    },
+    {
+      "index": 18,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "2. Soạn thảo, Cấu hình Trọng số AI & Đăng bài (JD Creation)",
+      "drawings": 0
+    },
+    {
+      "index": 19,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Khi tạo bài đăng tuyển dụng mới, HR nhập thông tin công việc và cấu hình các tham số phục vụ AI Engine:",
+      "drawings": 0
+    },
+    {
+      "index": 20,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Thông tin chung công việc: Tiêu đề công việc, Hình thức làm việc (Full-time, Part-time, Remote, Hybrid), Khoảng lương, Địa điểm, Mức kinh nghiệm yêu cầu và Mô tả chi tiết công việc (Mô tả, Yêu cầu, Quyền lợi).",
+      "drawings": 0
+    },
+    {
+      "index": 21,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Cấu hình Trọng số AI (AI Weights): HR tùy chỉnh thanh phần trăm trọng số cho 4 tiêu chí chính (tổng bằng 100%):",
+      "drawings": 0
+    },
+    {
+      "index": 22,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Kỹ năng chuyên môn (Hard Skills) — Mặc định 40%: Yêu cầu các kỹ năng chuyên môn cốt lõi trong JD (ví dụ: Java, Spring Boot, React Native, PostgreSQL).",
+      "drawings": 0
+    },
+    {
+      "index": 23,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Số năm & Chất lượng Kinh nghiệm — Mặc định 30%: Số năm kinh nghiệm và mức độ phù hợp của vị trí từng đảm nhận.",
+      "drawings": 0
+    },
+    {
+      "index": 24,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Học vấn & Chứng chỉ — Mặc định 15%: Bằng cấp, chuyên ngành đào tạo và chứng chỉ chuyên môn.",
+      "drawings": 0
+    },
+    {
+      "index": 25,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Độ tương quan Dự án — Mặc định 15%: Các dự án thực tế đã làm có cùng quy mô/công nghệ với công ty.",
+      "drawings": 0
+    },
+    {
+      "index": 26,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Kỹ năng bắt buộc (Must-have Skills): HR chọn các kỹ năng cốt lõi. Nếu ứng viên thiếu, AI sẽ cảnh báo rõ trong báo cáo để HR xem xét, nhưng không tự động loại ứng viên.",
+      "drawings": 0
+    },
+    {
+      "index": 27,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Thông tin công ty và xuất bản: Hệ thống tự động gắn thông tin công ty đã khai báo trong tài khoản HR vào bài tuyển dụng. Khi HR bấm 'Đăng tin', bài đăng chuyển sang trạng thái PUBLISHED và hiển thị công khai, không cần bước phê duyệt hoặc xác minh công ty.",
+      "drawings": 0
+    },
+    {
+      "index": 28,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "3. Quản lý Ứng viên & Xem Kết quả Phân tích AI",
+      "drawings": 0
+    },
+    {
+      "index": 29,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Khi có ứng viên nộp hồ sơ vào JD, HR Dashboard tự động cập nhật danh sách và kết quả phân tích AI:",
+      "drawings": 0
+    },
+    {
+      "index": 30,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Sắp xếp thông minh: Tự động sắp xếp ứng viên theo Điểm AI từ cao xuống thấp (100% -> 0%).",
+      "drawings": 0
+    },
+    {
+      "index": 31,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Xem Tổng quan: Hiển thị nhanh Họ tên, Vị trí hiện tại, Điểm tổng thể (Overall Match Score) và Điểm chi tiết từng tiêu chí.",
+      "drawings": 0
+    },
+    {
+      "index": 32,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Báo cáo Chi tiết AI (AI Evaluation Report): Khi chọn một ứng viên, HR xem được bản báo cáo chi tiết gồm:",
+      "drawings": 0
+    },
+    {
+      "index": 33,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Điểm mạnh (Strengths): Danh sách kỹ năng và kinh nghiệm của ứng viên hoàn toàn đáp ứng tốt JD.",
+      "drawings": 0
+    },
+    {
+      "index": 34,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Điểm thiếu hụt (Gaps): Những điểm chưa đạt hoặc thông tin còn thiếu so với tiêu chí tuyển dụng.",
+      "drawings": 0
+    },
+    {
+      "index": 35,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Nhận xét Tổng quan (AI Summary): Một đoạn tóm tắt ngắn gọn từ AI lý giải vì sao đưa ra số điểm đó.",
+      "drawings": 0
+    },
+    {
+      "index": 36,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Thao tác Chuyển trạng thái: Hồ sơ ban đầu ở trạng thái SUBMITTED (Đã nộp). Khi lựa chọn ứng viên, HR bấm 'Xác nhận phỏng vấn' để chuyển hồ sơ sang INTERVIEW_CONFIRMED (Được xác nhận phỏng vấn).",
+      "drawings": 0
+    },
+    {
+      "index": 37,
+      "type": "table",
+      "rows": [
+        [
+          "📌 MÔ HÌNH PHÂN QUYỀN VÀ SỞ HỮU DỮ LIỆU\nMỗi tài khoản HR hoạt động độc lập, tự khai báo thông tin công ty/tổ chức và quản lý các JD do mình tạo. Dữ liệu ứng viên nộp vào JD của HR nào chỉ hiển thị trên Dashboard của HR đó. Hệ thống không thực hiện xác minh doanh nghiệp và không hỗ trợ nhiều HR cùng quản lý một công ty trong phạm vi hiện tại."
+        ]
+      ]
+    },
+    {
+      "index": 39,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "III. QUY TRÌNH DÀNH CHO ỨNG VIÊN (CANDIDATE JOURNEY)",
+      "drawings": 0
+    },
+    {
+      "index": 40,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "1. Đăng ký & Chuẩn hóa Hồ sơ (Profile Setup)",
+      "drawings": 0
+    },
+    {
+      "index": 41,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Ứng viên không cần chuẩn bị CV file PDF rời rạc mà nhập dữ liệu trực tiếp lên hệ thống để tạo Profile chuẩn hóa:",
+      "drawings": 0
+    },
+    {
+      "index": 42,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Đăng ký tài khoản: Tạo tài khoản bằng Email và đăng nhập vào hệ thống.",
+      "drawings": 0
+    },
+    {
+      "index": 43,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Cập nhật Hồ sơ Cá nhân (Structured Profile): Ứng viên cập nhật thông tin chi tiết vào các mục chuẩn hóa:",
+      "drawings": 0
+    },
+    {
+      "index": 44,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Thông tin cá nhân & Liên hệ: Họ tên, Chức danh mong muốn, SĐT, Email, Link LinkedIn/GitHub.",
+      "drawings": 0
+    },
+    {
+      "index": 45,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Học vấn (Education): Tên trường, Chuyên ngành, Bằng cấp, Năm tốt nghiệp.",
+      "drawings": 0
+    },
+    {
+      "index": 46,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Kinh nghiệm Làm việc (Work Experience): Tên công ty, Vị trí, Thời gian làm việc, Mô tả nhiệm vụ & Thành tựu.",
+      "drawings": 0
+    },
+    {
+      "index": 47,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Kỹ năng Chuyên môn (Skills): Chọn danh sách Kỹ năng (Hard/Soft Skills) từ bộ Tag chuẩn.",
+      "drawings": 0
+    },
+    {
+      "index": 48,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Dự án Cá nhân/Thực tế (Projects): Tên dự án, Vai trò, Công nghệ sử dụng, Mô tả chi tiết giải pháp.",
+      "drawings": 0
+    },
+    {
+      "index": 49,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Chứng chỉ (Certificates): Các chứng chỉ nghề nghiệp chuyên môn (AWS, Scrum Master, Toeic...).",
+      "drawings": 0
+    },
+    {
+      "index": 50,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "2. Tìm kiếm Công việc & Thực hiện Nộp hồ sơ (Apply)",
+      "drawings": 0
+    },
+    {
+      "index": 51,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Tìm kiếm JD: Ứng viên tìm kiếm JD phù hợp theo Từ khóa công việc, Địa điểm làm việc, Mức lương hoặc Loại hình công việc.",
+      "drawings": 0
+    },
+    {
+      "index": 52,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Xem Chi tiết: Xem thông tin chi tiết công việc, quyền lợi và yêu cầu do HR đăng tải.",
+      "drawings": 0
+    },
+    {
+      "index": 53,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Thực hiện Ứng tuyển: Ứng viên bấm nút 'Ứng tuyển ngay' (Apply). Hệ thống kiểm tra bài đăng còn mở, hồ sơ đã có dữ liệu tối thiểu và ứng viên chưa nộp vào JD này trước đó.",
+      "drawings": 0
+    },
+    {
+      "index": 54,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Cơ chế Snapshot Hồ sơ: Ngay tại thời điểm bấm Apply, hệ thống thực hiện sao chụp (Snapshot) toàn bộ Profile của ứng viên và gắn cố định vào bản ghi Application. Điều này đảm bảo dữ liệu chấm điểm cố định ngay cả khi ứng viên sửa Profile sau đó.",
+      "drawings": 0
+    },
+    {
+      "index": 55,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "3. Luồng Xử lý Chấm điểm AI Tự động (Async AI Engine)",
+      "drawings": 0
+    },
+    {
+      "index": 56,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Sau khi bấm Apply, luồng xử lý backend diễn ra như sau:",
+      "drawings": 0
+    },
+    {
+      "index": 57,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bước 1 - Push Event: Backend tạo Application ở trạng thái SUBMITTED, sau đó đưa tác vụ chấm điểm vào hàng chờ RabbitMQ để xử lý bất đồng bộ và tránh làm chậm thao tác ứng tuyển.",
+      "drawings": 0
+    },
+    {
+      "index": 58,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bước 2 - Fetch Data: AI Processing Engine nhận tác vụ từ RabbitMQ và đọc Profile Snapshot, chi tiết JD, kỹ năng bắt buộc và trọng số do HR cấu hình.",
+      "drawings": 0
+    },
+    {
+      "index": 59,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bước 3 - Semantic Matching & Scoring: AI phân tích độ tương đồng ngữ nghĩa, tính điểm Kỹ năng, Kinh nghiệm, Học vấn, Dự án và điểm tổng từ 0 đến 100.",
+      "drawings": 0
+    },
+    {
+      "index": 60,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bước 4 - Output JSON: AI trả về dữ liệu JSON gồm điểm tổng, điểm thành phần, điểm mạnh, điểm thiếu hụt và phần giải thích ngắn. AI không sinh câu hỏi phỏng vấn và không tự động đưa ra quyết định tuyển dụng.",
+      "drawings": 0
+    },
+    {
+      "index": 61,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bước 5 - DB Update: Backend lưu kết quả vào cơ sở dữ liệu, cập nhật trạng thái xử lý AI thành COMPLETED và hiển thị kết quả trên HR Dashboard.",
+      "drawings": 0
+    },
+    {
+      "index": 62,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "4. Theo dõi Trạng thái Ứng tuyển",
+      "drawings": 0
+    },
+    {
+      "index": 63,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Trang quản lý cá nhân: Ứng viên truy cập mục 'Việc đã nộp' (My Applications) để xem các công việc đã ứng tuyển.",
+      "drawings": 0
+    },
+    {
+      "index": 64,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Trạng thái ứng tuyển: Hệ thống chỉ hiển thị hai trạng thái nghiệp vụ cho ứng viên:",
+      "drawings": 0
+    },
+    {
+      "index": 65,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "SUBMITTED - Đã nộp hồ sơ: Hồ sơ đã được gửi thành công. Trạng thái này được giữ nguyên trong quá trình AI phân tích và trong thời gian HR xem xét.",
+      "drawings": 0
+    },
+    {
+      "index": 66,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "INTERVIEW_CONFIRMED - Được xác nhận phỏng vấn: HR đã lựa chọn ứng viên và xác nhận chuyển sang vòng phỏng vấn.",
+      "drawings": 0
+    },
+    {
+      "index": 67,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Trạng thái xử lý AI nội bộ: PENDING, PROCESSING, COMPLETED hoặc FAILED được lưu riêng để Backend và HR theo dõi tiến trình chấm điểm; các trạng thái này không thay thế trạng thái ứng tuyển của ứng viên.",
+      "drawings": 0
+    },
+    {
+      "index": 68,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Thông báo trạng thái: Khi HR xác nhận phỏng vấn, hệ thống hiển thị thông báo trong ứng dụng cho ứng viên.",
+      "drawings": 0
+    },
+    {
+      "index": 69,
+      "type": "table",
+      "rows": [
+        [
+          "📌 NGUYÊN TẮC CON NGƯỜI LÀM CHỦ QUYẾT ĐỊNH (HUMAN-IN-THE-LOOP)\nAI chỉ đóng vai trò hỗ trợ so khớp Profile với JD, chấm điểm và giải thích kết quả. HR là người duy nhất quyết định có xác nhận ứng viên vào vòng phỏng vấn hay không. Hệ thống không sinh câu hỏi phỏng vấn và không tự động tuyển hoặc loại ứng viên."
+        ]
+      ]
+    },
+    {
+      "index": 71,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "IV. KIẾN TRÚC DỮ LIỆU & VÒNG ĐỜI TRẠNG THÁI (SPECIFICATION)",
+      "drawings": 0
+    },
+    {
+      "index": 72,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "1. Bảng Tổng hợp Vòng đời Trạng thái (Status Lifecycle)",
+      "drawings": 0
+    },
+    {
+      "index": 73,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Bảng dưới đây mô tả đầy đủ các trạng thái và luồng chuyển đổi trong hệ thống:",
+      "drawings": 0
+    },
+    {
+      "index": 74,
+      "type": "table",
+      "rows": [
+        [
+          "Thực thể (Entity)",
+          "Trạng thái Bắt đầu",
+          "Trạng thái Trung gian",
+          "Trạng thái Kết thúc"
+        ],
+        [
+          "Tài khoản HR (User)",
+          "REGISTERED",
+          "ACTIVE",
+          "SUSPENDED / LOCKED"
+        ],
+        [
+          "Bài đăng (Job / JD)",
+          "DRAFT",
+          "PUBLISHED",
+          "CLOSED"
+        ],
+        [
+          "Hồ sơ Ứng tuyển (Application)",
+          "SUBMITTED",
+          "Không có",
+          "INTERVIEW_\nCONFIRMED"
+        ],
+        [
+          "Xử lý AI (AI Processing)",
+          "PENDING",
+          "PROCESSING",
+          "COMPLETED / FAILED"
+        ]
+      ]
+    },
+    {
+      "index": 76,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "2. Cấu trúc Database Core Schema (Gợi ý)",
+      "drawings": 0
+    },
+    {
+      "index": 77,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Hệ thống cơ sở dữ liệu cốt lõi bao gồm 6 bảng chính:",
+      "drawings": 0
+    },
+    {
+      "index": 78,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bảng users: Lưu thông tin người dùng với hai vai trò HR và CANDIDATE. Tài khoản HR lưu trực tiếp tên, logo, địa chỉ, website và mô tả công ty/tổ chức dưới dạng thông tin tự khai báo; không có trạng thái xác minh doanh nghiệp.",
+      "drawings": 0
+    },
+    {
+      "index": 79,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bảng jobs: Lưu chi tiết bài tuyển dụng, người tạo (hr_user_id), cấu hình trọng số AI (ai_weights_config JSON), kỹ năng bắt buộc và trạng thái bài đăng. Thông tin công ty được lấy từ tài khoản HR để hiển thị kèm bài tuyển dụng.",
+      "drawings": 0
+    },
+    {
+      "index": 80,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bảng candidate_profiles: Lưu toàn bộ Profile chuẩn hóa của ứng viên gồm thông tin cá nhân, học vấn, kinh nghiệm, kỹ năng, dự án và chứng chỉ.",
+      "drawings": 0
+    },
+    {
+      "index": 81,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bảng applications: Lưu quan hệ ứng tuyển gồm job_id, candidate_id, profile_snapshot_json, application_status (SUBMITTED hoặc INTERVIEW_CONFIRMED), ai_processing_status và submitted_at. Mỗi ứng viên chỉ được nộp một lần vào một JD.",
+      "drawings": 0
+    },
+    {
+      "index": 82,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bảng ai_evaluations: Lưu kết quả AI theo từng Application gồm overall_score, điểm thành phần, strengths, gaps, missing_required_skills, model_version và created_at.",
+      "drawings": 0
+    },
+    {
+      "index": 83,
+      "type": "paragraph",
+      "style": "List Bullet",
+      "text": "Bảng notifications: Lưu thông báo trong ứng dụng, đặc biệt khi HR chuyển hồ sơ sang trạng thái INTERVIEW_CONFIRMED.",
+      "drawings": 0
+    },
+    {
+      "index": 84,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "3. Cấu trúc Dữ liệu Trả về (Output JSON) từ AI Engine",
+      "drawings": 0
+    },
+    {
+      "index": 85,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "Để Frontend HR hiển thị báo cáo rõ ràng, AI Engine trả về dữ liệu JSON chuẩn. Kết quả chỉ phục vụ chấm điểm và giải thích mức độ phù hợp; không bao gồm câu hỏi phỏng vấn hoặc quyết định tuyển dụng tự động:",
+      "drawings": 0
+    },
+    {
+      "index": 86,
+      "type": "table",
+      "rows": [
+        [
+          "{\n  \"candidate_id\": \"CAND_987654\",\n  \"job_id\": \"JOB_123456\",\n  \"application_status\": \"SUBMITTED\",\n  \"ai_processing_status\": \"COMPLETED\",\n  \"overall_score\": 88,\n  \"match_level\": \"HIGH\",\n  \"breakdown\": {\n    \"skills_score\": 92,\n    \"experience_score\": 85,\n    \"education_score\": 90,\n    \"project_score\": 82\n  },\n  \"strengths\": [\n    \"Thành thạo các công nghệ cốt lõi trong JD: Java, Spring Boot và PostgreSQL.\",\n    \"Có dự án thực tế phù hợp với yêu cầu của vị trí.\"\n  ],\n  \"gaps\": [\n    \"Số năm kinh nghiệm thực tế thấp hơn yêu cầu của JD.\"\n  ],\n  \"missing_required_skills\": [],\n  \"ai_summary\": \"Ứng viên có mức độ phù hợp cao về kỹ năng và dự án; HR cần xem xét thêm số năm kinh nghiệm.\"\n}"
+        ]
+      ]
+    },
+    {
+      "index": 88,
+      "type": "paragraph",
+      "style": "Normal",
+      "text": "--- HẾT BẢN MÔ TẢ NGHIỆP VỤ ---",
+      "drawings": 0
+    }
+  ],
+  "media": [],
+  "headers": [
+    [
+      ""
+    ]
+  ],
+  "footers": [
+    [
+      ""
+    ]
+  ]
+}

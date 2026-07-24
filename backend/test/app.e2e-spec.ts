@@ -17,10 +17,11 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('be hello');
+    return request(app.getHttpServer()).get('/').expect(200).expect('be hello');
+  });
+
+  it('/auth/me (GET) rejects anonymous requests', () => {
+    return request(app.getHttpServer()).get('/auth/me').expect(401);
   });
 
   afterEach(async () => {

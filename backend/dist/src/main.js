@@ -47,5 +47,5 @@ async function bootstrap() {
     console.log(`Backend is running on: http://localhost:${port}/api`);
     console.log(`API documentation available at: http://localhost:${port}/api/docs`);
 }
-bootstrap();
+void bootstrap();
 //# sourceMappingURL=main.js.map
